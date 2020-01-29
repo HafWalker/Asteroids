@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class BoundsDetector : MonoBehaviour
 {
-    public float bounds_height;
-    public float bounds_width;
+    private float bounds_height;
+    private float bounds_width;
 
-    public float left_bound;
-    public float right_bound;
-    public float top_bound;
-    public float bottom_bound;
+    private float left_bound;
+    private float right_bound;
+    private float top_bound;
+    private float bottom_bound;
 
     void Start()
     {
+        bounds_height = Screen.height*2;
+        bounds_width = Screen.width*2;
+
         right_bound = bounds_width / 2;
         left_bound = -right_bound;
         top_bound = bounds_height / 2;
