@@ -379,6 +379,8 @@ GameObject:
   - component: {fileID: 442529444}
   - component: {fileID: 442529446}
   - component: {fileID: 442529445}
+  - component: {fileID: 442529448}
+  - component: {fileID: 442529447}
   m_Layer: 5
   m_Name: ship
   m_TagString: Untagged
@@ -443,6 +445,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442529443}
   m_CullTransparentMesh: 0
+--- !u!114 &442529447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442529443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05ea1e3cd0fd364fab18238c13cd08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeed: 10
+  forwardSpeed: 10
+--- !u!50 &442529448
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442529443}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &457187637
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +667,7 @@ GameObject:
   - component: {fileID: 685230146}
   - component: {fileID: 685230145}
   m_Layer: 5
-  m_Name: ' propeller'
+  m_Name: 0_ propeller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
