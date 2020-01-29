@@ -16,10 +16,6 @@ public class ShipController : MonoBehaviour
     public bool canFire = true;
     public float bulletSpeed;
 
-    // debug
-
-    public float velMag;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +38,6 @@ public class ShipController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            velMag = rigidbody_2D.velocity.magnitude;
-            
             if (rigidbody_2D.velocity.magnitude <= maxVelocity)
             {
                 rigidbody_2D.AddForce(transform.up * forwardSpeed);
