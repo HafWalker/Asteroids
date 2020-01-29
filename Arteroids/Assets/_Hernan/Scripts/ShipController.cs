@@ -11,7 +11,10 @@ public class ShipController : MonoBehaviour
     private Rigidbody2D rigidbody_2D;
 
     private GameObject propeller;
-    private GameObject bullet;
+
+    public Transform bulletSpawn;
+    public bool canFire = true;
+    public float bulletSpeed;
 
     // debug
 
@@ -64,13 +67,33 @@ public class ShipController : MonoBehaviour
             rigidbody_2D.angularVelocity = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            Shoot();
+            if (canFire)
+            {
+                Shoot();
+            }
         }
     }
 
-    public void Shoot() { 
-        //spawn bullet
+    public void Shoot() {
+        
+        GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = bulletSpawn.position;
+            bullet.transform.rotation = bulletSpawn.rotation;
+            bullet.SetActive(true);
+            bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpawn.up * bulletSpeed, ForceMode2D.Impulse);
+        }
+        canFire = false;
+       
+        StartCoroutine(WaitToReload());
+    }
+
+    public IEnumerator WaitToReload()
+    {
+        yield return new WaitForSeconds(.1f);
+        canFire = true;
     }
 }
