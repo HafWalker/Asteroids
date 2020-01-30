@@ -16,9 +16,12 @@ public class ShipController : MonoBehaviour
     public bool canFire = true;
     public float bulletSpeed;
 
+    private Vector2 startPos;
+
     // Start is called before the first frame update
     void Start()
     {
+        startPos = transform.position;
         rigidbody_2D = GetComponent<Rigidbody2D>();
         propeller = transform.GetChild(0).gameObject;
     }
@@ -68,6 +71,13 @@ public class ShipController : MonoBehaviour
                 Shoot();
             }
         }
+    }
+
+    public void ResetPos()
+    {
+        rigidbody_2D.velocity = Vector3.zero;
+        rigidbody_2D.angularVelocity = 0;
+        transform.position = startPos;
     }
 
     public void Shoot() {
