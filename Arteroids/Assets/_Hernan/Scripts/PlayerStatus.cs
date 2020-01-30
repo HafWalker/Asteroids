@@ -9,12 +9,18 @@ public class PlayerStatus : MonoBehaviour
     private int scoreAmount;
     public Text scoreTxt;
 
+    public bool haveShield = true;
+    private bool shielCorutinedCheck = false;
+    public GameObject shield;
+    public Animator shieldAnimator;
+
     public int actualLives;
     public List<GameObject> lives;
 
     private void Start()
     {
         RestoreLives();
+        EnableShield();
     }
 
     public void AddScore(int amount)
@@ -25,7 +31,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void RestoreLives()
     {
-        actualLives = lives.Count-1;
+        actualLives = lives.Count - 1;
         foreach (GameObject life in lives)
         {
             life.SetActive(true);
@@ -34,15 +40,49 @@ public class PlayerStatus : MonoBehaviour
 
     public void RemoveLife()
     {
-        lives[actualLives].SetActive(false);
-        if (actualLives > 0)
+        if (!shield.activeInHierarchy)
         {
-            actualLives--;
+            lives[actualLives].SetActive(false);
+            if (actualLives > 0)
+            {
+                actualLives--;
+            }
+            else
+            {
+                print("GameOver");
+            }
         }
         else
         {
-            print("GameOver");
+            
+            if (shielCorutinedCheck)
+            {
+                StartCoroutine(DisableShieldAnimation());
+            }
+            else
+            {
+                shielCorutinedCheck = false;
+            }
+            
         }
 
+    }
+
+    public void EnableShield()
+    {
+        shield.SetActive(true);
+    }
+
+    public void DisableShield()
+    {
+        shield.SetActive(false);
+    }
+
+    public IEnumerator DisableShieldAnimation()
+    {
+        shieldAnimator.SetBool("ActiveShieldAnimation", false);
+        yield return new WaitForSeconds(3);
+        haveShield = false;
+        DisableShield();
     }
 }
