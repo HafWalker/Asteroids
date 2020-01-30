@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AsteroidsManager : MonoBehaviour
 {
+    public GameManager gameMgr;
     public int startAsteroidsAmount = 4;
 
     public GameObject asteroidRef;
@@ -46,7 +47,7 @@ public class AsteroidsManager : MonoBehaviour
         }
 
         GameObject asteroidClone = Instantiate(asteroidRef, pos, Quaternion.identity, transform);
-        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, this);
+        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, this, gameMgr);
         allAsteroids.Add(asteroidClone);
     }
 
@@ -73,7 +74,7 @@ public class AsteroidsManager : MonoBehaviour
         {
             if(allAsteroids[i] == null)
             {
-                print("HAY UN MISING");
+                //print("MISING");
                 allAsteroids.Remove(allAsteroids[i]);
             }
         }

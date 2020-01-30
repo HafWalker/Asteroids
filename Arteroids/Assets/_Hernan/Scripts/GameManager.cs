@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public AsteroidsManager asteroidMgr;
     public PlayerStatus playerStatus;
 
+    private bool isGameOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,5 +44,18 @@ public class GameManager : MonoBehaviour
                 // score
                 break;
         }
+    }
+
+    public void ResetWorld()
+    {
+        asteroidMgr.ResetAsteroids();
+        playerStatus.Respawn();
+        playerStatus.GetComponent<ShipController>().ResetPos(); // castear
+    }
+
+    public void SetGameOver()
+    {
+        print("Game Over");
+        //state = State.Score;
     }
 }

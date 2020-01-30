@@ -14,6 +14,7 @@ public class Asteroid : MonoBehaviour
 {
     public Type type;
     private AsteroidsManager asteroidMgr;
+    private GameManager gameMrg;
 
     private Image image;
     public List<Sprite> sprites;
@@ -26,8 +27,9 @@ public class Asteroid : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    public void Initialize(Type t, Vector3 pos, AsteroidsManager asteroidManager)
+    public void Initialize(Type t, Vector3 pos, AsteroidsManager asteroidManager, GameManager gameManager)
     {
+        gameMrg = gameManager;
         asteroidMgr = asteroidManager;
         type = t;
         SetRandomSprite();
@@ -83,11 +85,11 @@ public class Asteroid : MonoBehaviour
         {
             asteroidMgr.playerStatus.GetComponent<PlayerStatus>().RemoveLife();
 
-            if (!asteroidMgr.playerStatus.GetComponent<PlayerStatus>().haveShield)
-            {
-                asteroidMgr.ResetAsteroids();
-                asteroidMgr.playerStatus.GetComponent<ShipController>().ResetPos();
-            }
+            //if (!asteroidMgr.playerStatus.GetComponent<PlayerStatus>().haveShield)
+            //{
+            //    asteroidMgr.ResetAsteroids();
+            //    asteroidMgr.playerStatus.GetComponent<ShipController>().ResetPos();
+            //}
         }
     }
 }

@@ -10,15 +10,20 @@ public class PlayerStatus : MonoBehaviour
     public Text scoreTxt;
 
     public bool haveShield = true;
-    private bool shielCorutinedCheck = false;
+    private bool shielCorutinedCheck = true;
     public GameObject shield;
     public Animator shieldAnimator;
 
     public int actualLives;
     public List<GameObject> lives;
 
+    public float timeToRespawn;
+
+    public ShipExplosion shipExplosion;
+
     private void Start()
     {
+        AddScore(0);
         RestoreLives();
         EnableShield();
     }
@@ -38,23 +43,37 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    public void Respawn()
+    {
+        transform.GetChild(1).GetComponent<Image>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
+    }
+
     public void RemoveLife()
     {
         if (!shield.activeInHierarchy)
         {
             lives[actualLives].SetActive(false);
+
+            shipExplosion.Explode(transform.position);
+
+            //Chequear si en la corrutina se llama cont
+            transform.GetChild(1).GetComponent<Image>().enabled = false;
+            GetComponent<BoxCollider2D>().enabled = false;
+
+            StartCoroutine(TimeToRespawn(timeToRespawn));
+
             if (actualLives > 0)
             {
                 actualLives--;
             }
             else
             {
-                print("GameOver");
+                gameMgr.SetGameOver();
             }
         }
         else
         {
-            
             if (shielCorutinedCheck)
             {
                 StartCoroutine(DisableShieldAnimation());
@@ -63,9 +82,7 @@ public class PlayerStatus : MonoBehaviour
             {
                 shielCorutinedCheck = false;
             }
-            
         }
-
     }
 
     public void EnableShield()
@@ -84,5 +101,11 @@ public class PlayerStatus : MonoBehaviour
         yield return new WaitForSeconds(3);
         haveShield = false;
         DisableShield();
+    }
+
+    public IEnumerator TimeToRespawn(float t)
+    {
+        yield return new WaitForSeconds(t);
+        gameMgr.ResetWorld();
     }
 }
