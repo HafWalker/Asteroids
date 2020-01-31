@@ -14,62 +14,72 @@ public class PlayerStatus : MonoBehaviour
     public GameObject shield;
     public Animator shieldAnimator;
 
+    public int lives;
     public int actualLives;
-    public List<GameObject> lives;
+    public List<GameObject> livesGameObjects;
 
     public float timeToRespawn;
 
     public ShipExplosion shipExplosion;
 
-    private void Start()
-    {
-        AddScore(0);
-        RestoreLives();
-        EnableShield();
-    }
-
-    public void AddScore(int amount)
+    public void SetScore(int amount)
     {
         scoreAmount += amount;
         scoreTxt.text = scoreAmount.ToString();
     }
 
-    public void RestoreLives()
+    public int GetScore()
     {
-        actualLives = lives.Count - 1;
-        foreach (GameObject life in lives)
+        return scoreAmount;
+    }
+
+    public void RestoreStatus()
+    {
+        scoreAmount = 0;
+        scoreTxt.text = scoreAmount.ToString();
+
+        actualLives = lives;
+
+        actualLives = livesGameObjects.Count - 1;
+        foreach (GameObject life in livesGameObjects)
         {
             life.SetActive(true);
         }
+
+        StopAllCoroutines();
+
+        EnableShield();
     }
 
     public void Respawn()
     {
         transform.GetChild(1).GetComponent<Image>().enabled = true;
         GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<ShipController>().enabled = true;
     }
 
     public void RemoveLife()
     {
         if (!shield.activeInHierarchy)
         {
-            lives[actualLives].SetActive(false);
+            livesGameObjects[actualLives].SetActive(false);
 
             shipExplosion.Explode(transform.position);
 
             //Chequear si en la corrutina se llama cont
             transform.GetChild(1).GetComponent<Image>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;
-
-            StartCoroutine(TimeToRespawn(timeToRespawn));
+            GetComponent<ShipController>().enabled = false;
+            GetComponent<ShipController>().DisableShipRenderer();
 
             if (actualLives > 0)
             {
+                StartCoroutine(RespawnOnTime(timeToRespawn,false));
                 actualLives--;
             }
             else
             {
-                gameMgr.SetGameOver();
+                StartCoroutine(RespawnOnTime(timeToRespawn,true));
             }
         }
         else
@@ -77,16 +87,17 @@ public class PlayerStatus : MonoBehaviour
             if (shielCorutinedCheck)
             {
                 StartCoroutine(DisableShieldAnimation());
-            }
-            else
-            {
                 shielCorutinedCheck = false;
             }
+            
         }
     }
 
     public void EnableShield()
     {
+        shieldAnimator.SetBool("ActiveShieldAnimation", true);
+        shielCorutinedCheck = true;
+        haveShield = true;
         shield.SetActive(true);
     }
 
@@ -103,9 +114,16 @@ public class PlayerStatus : MonoBehaviour
         DisableShield();
     }
 
-    public IEnumerator TimeToRespawn(float t)
+    public IEnumerator RespawnOnTime(float t, bool isGameOver)
     {
         yield return new WaitForSeconds(t);
-        gameMgr.ResetWorld();
+        if (!isGameOver)
+        {
+            gameMgr.ResetWorld();
+        }
+        else
+        {
+            gameMgr.SetGameOver();
+        }
     }
 }

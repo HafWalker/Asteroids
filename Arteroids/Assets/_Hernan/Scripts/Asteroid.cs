@@ -68,7 +68,7 @@ public class Asteroid : MonoBehaviour
         if (collision.tag == "Bullet")
         {
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
-            asteroidMgr.playerStatus.GetComponent<PlayerStatus>().AddScore(10);
+            asteroidMgr.playerStatus.GetComponent<PlayerStatus>().SetScore(10);
 
             if (type != Type.Small)
             {

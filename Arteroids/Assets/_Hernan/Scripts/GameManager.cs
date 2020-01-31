@@ -8,7 +8,7 @@ public enum State
     Menu,
     Start,
     InGame,
-    Score
+    GameOver
 }
 
 public class GameManager : MonoBehaviour
@@ -17,12 +17,21 @@ public class GameManager : MonoBehaviour
     public AsteroidsManager asteroidMgr;
     public PlayerStatus playerStatus;
 
+    public GameObject canvasMenu;
+    public GameObject canvasGame;
+    public GameObject canvasScore;
+
+    public Text highScoreTxt;
+    private int actualScore;
+    private int highScore;
+
     private bool isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        state = State.Start;
+        highScoreTxt.text = "0";
+        state = State.Menu;
     }
 
     // Update is called once per frame
@@ -32,18 +41,58 @@ public class GameManager : MonoBehaviour
         {
             case 0:
                 // menu
+                canvasMenu.SetActive(true);
+                canvasScore.SetActive(false);
+                canvasGame.SetActive(false);
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    StartGame();
+                }
+
                 break;
             case 1:
-                asteroidMgr.CreateFirstAsteroids();
+                canvasMenu.SetActive(false);
+                canvasGame.SetActive(true);
+
+                print("START");
+
+                playerStatus.RestoreStatus();
+                ResetWorld();
+
                 state = State.InGame;
                 break;
             case 2:
+
+                actualScore = playerStatus.GetScore();
+
+                if (actualScore > highScore)
+                {
+                    highScore = actualScore;
+                    highScoreTxt.text = highScore.ToString();
+                }
+
                 // InGame
                 break;
             case 3:
+                canvasScore.SetActive(true);
+                canvasGame.SetActive(false);
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    StopAllCoroutines();
+                    state = State.Menu;
+                }
+
+                //StartCoroutine(TimeToGoMenu());
                 // score
                 break;
         }
+    }
+
+    public void StartGame()
+    {
+        state = State.Start;
     }
 
     public void ResetWorld()
@@ -56,6 +105,12 @@ public class GameManager : MonoBehaviour
     public void SetGameOver()
     {
         print("Game Over");
-        //state = State.Score;
+        state = State.GameOver;
+    }
+
+    public IEnumerator TimeToGoMenu()
+    {
+        yield return new WaitForSeconds(5);
+        state = State.Menu;
     }
 }

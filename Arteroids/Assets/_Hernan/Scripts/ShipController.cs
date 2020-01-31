@@ -95,6 +95,11 @@ public class ShipController : MonoBehaviour
         StartCoroutine(WaitToReload());
     }
 
+    public void DisableShipRenderer()
+    {
+        propeller.SetActive(false);
+    }
+
     public IEnumerator WaitToReload()
     {
         yield return new WaitForSeconds(.1f);
