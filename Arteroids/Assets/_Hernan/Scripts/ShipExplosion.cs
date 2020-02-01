@@ -5,11 +5,12 @@ using UnityEngine;
 public class ShipExplosion : MonoBehaviour
 {
     public List<Transform> parts;
+
     public float explosionForce;
     public float explosionSpeedRange;
 
-    public float lifeTimeMax;
-    public float lifeTimeMin;
+    public float lifeTime;
+    public float lifeTimeRange;
 
     public float angularSpeed;
     public float angularSpeedRange;
@@ -53,12 +54,12 @@ public class ShipExplosion : MonoBehaviour
             part.GetComponent<Rigidbody2D>().AddTorque(randomAngularSpeed, ForceMode2D.Impulse);
 
             // Rando LifeTime
-            float randomTime = Random.Range(lifeTimeMin, lifeTimeMax);
-            StartCoroutine(TimerToDie(randomTime, part));
+            float randomTime = Random.Range(lifeTime - lifeTimeRange, lifeTime + lifeTimeRange);
+            StartCoroutine(TimeToDisable(randomTime, part));
         }
     }
 
-    public IEnumerator TimerToDie(float t, Transform part) // Camb a desaparcer
+    public IEnumerator TimeToDisable(float t, Transform part)
     {
         yield return new WaitForSeconds(t);
         part.gameObject.SetActive(false);

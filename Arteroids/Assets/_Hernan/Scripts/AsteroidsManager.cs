@@ -5,6 +5,8 @@ using UnityEngine;
 public class AsteroidsManager : MonoBehaviour
 {
     public GameManager gameMgr;
+    public AudioManager audioManager;
+
     public int startAsteroidsAmount = 4;
 
     public GameObject asteroidRef;
@@ -63,6 +65,7 @@ public class AsteroidsManager : MonoBehaviour
 
     public void RemoveAsteroid(GameObject asteroid) 
     {
+        audioManager.playExplosionClip();
         allAsteroids.Remove(asteroid);
 
         if (allAsteroids.Count == 0)
@@ -82,6 +85,8 @@ public class AsteroidsManager : MonoBehaviour
 
     public void ResetAsteroids()
     {
+        edge = 0;
+
         foreach (GameObject asteroid in allAsteroids)
         {
             Destroy(asteroid);

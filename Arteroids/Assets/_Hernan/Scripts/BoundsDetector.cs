@@ -45,7 +45,5 @@ public class BoundsDetector : MonoBehaviour
         {
             transform.localPosition = new Vector3(transform.localPosition.x, top_bound, transform.localPosition.z);
         }
-
-        
     }
 }

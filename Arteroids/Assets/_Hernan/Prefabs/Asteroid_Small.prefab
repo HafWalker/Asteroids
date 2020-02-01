@@ -141,8 +141,8 @@ MonoBehaviour:
   - {fileID: 681342722109813775, guid: b1e7caab6815caa48830c29c6d2eaa81, type: 3}
   - {fileID: 6768887938175149720, guid: b1e7caab6815caa48830c29c6d2eaa81, type: 3}
   - {fileID: 804725587607119530, guid: b1e7caab6815caa48830c29c6d2eaa81, type: 3}
-  minSpeed: 30
-  maxSpeed: 40
+  minSpeed: 90
+  maxSpeed: 110
 --- !u!114 &195905541833135742
 MonoBehaviour:
   m_ObjectHideFlags: 0

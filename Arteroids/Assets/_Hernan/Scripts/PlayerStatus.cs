@@ -6,21 +6,47 @@ using UnityEngine.UI;
 public class PlayerStatus : MonoBehaviour
 {
     public GameManager gameMgr;
+    public AudioManager audioManager;
+
     private int scoreAmount;
     public Text scoreTxt;
 
-    public bool haveShield = true;
-    private bool shielCorutinedCheck = true;
+    private bool haveShield = true;
     public GameObject shield;
     public Animator shieldAnimator;
 
     public int lives;
-    public int actualLives;
+    private int actualLives;
     public List<GameObject> livesGameObjects;
 
-    public float timeToRespawn;
+    public float deathDelay;
+    public bool isDead = false;
 
     public ShipExplosion shipExplosion;
+
+    public void Initialize()
+    {
+        isDead = false;
+
+        foreach (var Life in livesGameObjects)
+        {
+            Life.SetActive(false);
+        }
+
+        scoreAmount = 0;
+        scoreTxt.text = scoreAmount.ToString();
+
+        actualLives = lives-1;
+
+        for (int i = 0; i < lives; i++)
+        {
+            livesGameObjects[i].SetActive(true);
+        }
+
+        StopAllCoroutines();
+
+        EnableShield();
+    }
 
     public void SetScore(int amount)
     {
@@ -33,26 +59,9 @@ public class PlayerStatus : MonoBehaviour
         return scoreAmount;
     }
 
-    public void RestoreStatus()
-    {
-        scoreAmount = 0;
-        scoreTxt.text = scoreAmount.ToString();
-
-        actualLives = lives;
-
-        actualLives = livesGameObjects.Count - 1;
-        foreach (GameObject life in livesGameObjects)
-        {
-            life.SetActive(true);
-        }
-
-        StopAllCoroutines();
-
-        EnableShield();
-    }
-
     public void Respawn()
     {
+        audioManager.playShipRespawnClip();
         transform.GetChild(1).GetComponent<Image>().enabled = true;
         GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<ShipController>().enabled = true;
@@ -65,6 +74,7 @@ public class PlayerStatus : MonoBehaviour
             livesGameObjects[actualLives].SetActive(false);
 
             shipExplosion.Explode(transform.position);
+            audioManager.playShipExplosionClip();
 
             //Chequear si en la corrutina se llama cont
             transform.GetChild(1).GetComponent<Image>().enabled = false;
@@ -74,20 +84,21 @@ public class PlayerStatus : MonoBehaviour
 
             if (actualLives > 0)
             {
-                StartCoroutine(RespawnOnTime(timeToRespawn,false));
+                StartCoroutine(DeathCoroutine(deathDelay,false));
                 actualLives--;
             }
             else
             {
-                StartCoroutine(RespawnOnTime(timeToRespawn,true));
+                StartCoroutine(DeathCoroutine(deathDelay,true));
             }
         }
         else
         {
-            if (shielCorutinedCheck)
+            if (haveShield)
             {
+                audioManager.playShieldHitClip(); // Sonido de escudo desactivandose
                 StartCoroutine(DisableShieldAnimation());
-                shielCorutinedCheck = false;
+                haveShield = false;
             }
             
         }
@@ -96,25 +107,18 @@ public class PlayerStatus : MonoBehaviour
     public void EnableShield()
     {
         shieldAnimator.SetBool("ActiveShieldAnimation", true);
-        shielCorutinedCheck = true;
         haveShield = true;
         shield.SetActive(true);
-    }
-
-    public void DisableShield()
-    {
-        shield.SetActive(false);
     }
 
     public IEnumerator DisableShieldAnimation()
     {
         shieldAnimator.SetBool("ActiveShieldAnimation", false);
         yield return new WaitForSeconds(3);
-        haveShield = false;
-        DisableShield();
+        shield.SetActive(false);
     }
 
-    public IEnumerator RespawnOnTime(float t, bool isGameOver)
+    public IEnumerator DeathCoroutine(float t, bool isGameOver)
     {
         yield return new WaitForSeconds(t);
         if (!isGameOver)
@@ -123,7 +127,7 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            gameMgr.SetGameOver();
+            isDead = true;
         }
     }
 }

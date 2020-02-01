@@ -84,12 +84,6 @@ public class Asteroid : MonoBehaviour
         if (collision.tag == "Player")
         {
             asteroidMgr.playerStatus.GetComponent<PlayerStatus>().RemoveLife();
-
-            //if (!asteroidMgr.playerStatus.GetComponent<PlayerStatus>().haveShield)
-            //{
-            //    asteroidMgr.ResetAsteroids();
-            //    asteroidMgr.playerStatus.GetComponent<ShipController>().ResetPos();
-            //}
         }
     }
 }

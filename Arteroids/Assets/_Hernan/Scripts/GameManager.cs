@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum State
+public enum GameState
 {
     Menu,
-    Start,
-    InGame,
+    Init,
+    Game,
     GameOver
 }
 
 public class GameManager : MonoBehaviour
 {
-    public State state;
+    public GameState gameState;
+
     public AsteroidsManager asteroidMgr;
+
     public PlayerStatus playerStatus;
 
     public GameObject canvasMenu;
@@ -31,38 +33,43 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         highScoreTxt.text = "0";
-        state = State.Menu;
+        gameState = GameState.Menu;
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch ((int)state)
+        switch ((int)gameState)
         {
             case 0:
-                // menu
+                // Sate Menu
+
                 canvasMenu.SetActive(true);
                 canvasScore.SetActive(false);
                 canvasGame.SetActive(false);
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    StartGame();
+                    gameState = GameState.Init;
                 }
 
                 break;
+
             case 1:
+                // Sate Init
+
                 canvasMenu.SetActive(false);
                 canvasGame.SetActive(true);
 
-                print("START");
-
-                playerStatus.RestoreStatus();
+                playerStatus.Initialize();
                 ResetWorld();
 
-                state = State.InGame;
+                gameState = GameState.Game;
+
                 break;
+
             case 2:
+                // Sate Game
 
                 actualScore = playerStatus.GetScore();
 
@@ -72,27 +79,32 @@ public class GameManager : MonoBehaviour
                     highScoreTxt.text = highScore.ToString();
                 }
 
-                // InGame
+                if (playerStatus.isDead)
+                {
+                    gameState = GameState.GameOver;
+                }
+
                 break;
+
             case 3:
+                // Sate GameOver
+
                 canvasScore.SetActive(true);
                 canvasGame.SetActive(false);
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     StopAllCoroutines();
-                    state = State.Menu;
+                    gameState = GameState.Menu;
                 }
 
-                //StartCoroutine(TimeToGoMenu());
-                // score
                 break;
         }
-    }
 
-    public void StartGame()
-    {
-        state = State.Start;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void ResetWorld()
@@ -102,15 +114,4 @@ public class GameManager : MonoBehaviour
         playerStatus.GetComponent<ShipController>().ResetPos(); // castear
     }
 
-    public void SetGameOver()
-    {
-        print("Game Over");
-        state = State.GameOver;
-    }
-
-    public IEnumerator TimeToGoMenu()
-    {
-        yield return new WaitForSeconds(5);
-        state = State.Menu;
-    }
 }
