@@ -49,7 +49,7 @@ public class AsteroidsManager : MonoBehaviour
         }
 
         GameObject asteroidClone = Instantiate(asteroidRef, pos, Quaternion.identity, transform);
-        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, this, gameMgr);
+        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, gameMgr);
         allAsteroids.Add(asteroidClone);
     }
 

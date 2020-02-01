@@ -27,10 +27,9 @@ public class Asteroid : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    public void Initialize(Type t, Vector3 pos, AsteroidsManager asteroidManager, GameManager gameManager)
+    public void Initialize(Type t, Vector3 pos, GameManager gameManager)
     {
         gameMrg = gameManager;
-        asteroidMgr = asteroidManager;
         type = t;
         SetRandomSprite();
         SetRandomMovement();
@@ -68,22 +67,22 @@ public class Asteroid : MonoBehaviour
         if (collision.tag == "Bullet")
         {
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
-            asteroidMgr.playerStatus.GetComponent<PlayerStatus>().SetScore(10);
+            gameMrg.playerStatus.SetScore(10);
 
             if (type != Type.Small)
             {
-                asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
-                asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
+                gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
+                gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
             }
 
-            asteroidMgr.RemoveAsteroid(this.gameObject);
+            gameMrg.asteroidMgr.RemoveAsteroid(this.gameObject);
             Destroy(gameObject);
             collision.gameObject.SetActive(false);
         }
 
         if (collision.tag == "Player")
         {
-            asteroidMgr.playerStatus.GetComponent<PlayerStatus>().RemoveLife();
+            gameMrg.playerStatus.RemoveLife();
         }
     }
 }

@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
 
     public AsteroidsManager asteroidMgr;
-
     public PlayerStatus playerStatus;
 
     public GameObject canvasMenu;

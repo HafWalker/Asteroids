@@ -8,12 +8,18 @@ public class PlayerStatus : MonoBehaviour
     public GameManager gameMgr;
     public AudioManager audioManager;
 
-    private int scoreAmount;
-    public Text scoreTxt;
+    private ShipController shipController;
+    private BoxCollider2D boxCollider2d;
+    private ShipExplosion shipExplosion;
 
-    private bool haveShield = true;
+    public Image bodyShip;
     public GameObject shield;
     public Animator shieldAnimator;
+
+    private bool haveShield = true;
+
+    private int scoreAmount;
+    public Text scoreTxt;
 
     public int lives;
     private int actualLives;
@@ -22,7 +28,12 @@ public class PlayerStatus : MonoBehaviour
     public float deathDelay;
     public bool isDead = false;
 
-    public ShipExplosion shipExplosion;
+    public void Awake()
+    {
+        shipController = GetComponent<ShipController>();
+        boxCollider2d = GetComponent<BoxCollider2D>();
+        shipExplosion = GetComponentInChildren<ShipExplosion>();
+    }
 
     public void Initialize()
     {
@@ -62,9 +73,9 @@ public class PlayerStatus : MonoBehaviour
     public void Respawn()
     {
         audioManager.playShipRespawnClip();
-        transform.GetChild(1).GetComponent<Image>().enabled = true;
-        GetComponent<BoxCollider2D>().enabled = true;
-        GetComponent<ShipController>().enabled = true;
+        bodyShip.enabled = true;
+        boxCollider2d.enabled = true;
+        shipController.enabled = true;
     }
 
     public void RemoveLife()
@@ -77,10 +88,10 @@ public class PlayerStatus : MonoBehaviour
             audioManager.playShipExplosionClip();
 
             //Chequear si en la corrutina se llama cont
-            transform.GetChild(1).GetComponent<Image>().enabled = false;
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<ShipController>().enabled = false;
-            GetComponent<ShipController>().DisableShipRenderer();
+            bodyShip.enabled = false;
+            boxCollider2d.enabled = false;
+            shipController.enabled = false;
+            shipController.DisableShipRenderer();
 
             if (actualLives > 0)
             {
