@@ -16,16 +16,16 @@ public class PlayerStatus : MonoBehaviour
     public GameObject shield;
     public Animator shieldAnimator;
 
-    private bool haveShield = true;
-
-    private int scoreAmount;
     public Text scoreTxt;
+    private int scoreAmount;
 
     public int lives;
     private int actualLives;
     public List<GameObject> livesGameObjects;
 
     public float deathDelay;
+
+    private bool haveShield = true;
     public bool isDead = false;
 
     public void Awake()

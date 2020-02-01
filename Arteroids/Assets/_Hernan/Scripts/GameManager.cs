@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     private int actualScore;
     private int highScore;
 
-    private bool isGameOver = false;
-
     // Start is called before the first frame update
     void Start()
     {
