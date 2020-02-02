@@ -36,13 +36,16 @@ public class ShipController : MonoBehaviour
         {
             transform.Rotate(Vector3.forward * rotSpeed);
         }
-
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.Rotate(Vector3.forward * -rotSpeed);
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            propeller.SetActive(false);
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
         {
             if (rigidbody_2D.velocity.magnitude <= maxVelocity)
             {
@@ -56,11 +59,6 @@ public class ShipController : MonoBehaviour
             audioManager.playJetClip();
 
             propeller.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            propeller.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
