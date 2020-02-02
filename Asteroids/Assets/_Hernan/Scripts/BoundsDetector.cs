@@ -12,6 +12,8 @@ public class BoundsDetector : MonoBehaviour
     private float top_bound;
     private float bottom_bound;
 
+    private Vector3 templVector;
+
     void Start()
     {
         bounds_height = Screen.height*2;
@@ -28,22 +30,32 @@ public class BoundsDetector : MonoBehaviour
     {
         if (transform.localPosition.x < left_bound) 
         {
-            transform.localPosition = new Vector3(right_bound, transform.localPosition.y, transform.localPosition.z);
+            templVector.x = right_bound;
+            templVector.y = transform.localPosition.y;
+            templVector.z = transform.localPosition.z;
+            transform.localPosition = templVector; 
         }
-
-        if (transform.localPosition.x > right_bound)
+        else if (transform.localPosition.x > right_bound)
         {
-            transform.localPosition = new Vector3(left_bound, transform.localPosition.y, transform.localPosition.z);
+            templVector.x = left_bound;
+            templVector.y = transform.localPosition.y;
+            templVector.z = transform.localPosition.z;
+            transform.localPosition = templVector;
         }
 
         if (transform.localPosition.y > top_bound)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, bottom_bound, transform.localPosition.z);
+            templVector.x = transform.localPosition.x;
+            templVector.y = bottom_bound;
+            templVector.z = transform.localPosition.z;
+            transform.localPosition = templVector;
         }
-
-        if (transform.localPosition.y < bottom_bound)
+        else if (transform.localPosition.y < bottom_bound)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, top_bound, transform.localPosition.z);
+            templVector.x = transform.localPosition.x;
+            templVector.y = top_bound;
+            templVector.z = transform.localPosition.z;
+            transform.localPosition = templVector;
         }
     }
 }
