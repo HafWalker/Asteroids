@@ -42,9 +42,13 @@ public class PlayerStatus : MonoBehaviour
     private ShipController shipController;
     private BoxCollider2D boxCollider2d;
     private ShipExplosion shipExplosion;
+    private WaitForSeconds cacheWaitToDeath;
+    private WaitForSeconds cacheWaitDisableShield;
 
     public void Awake()
     {
+        cacheWaitToDeath = new WaitForSeconds(deathDelay);
+        cacheWaitDisableShield = new WaitForSeconds(3);
         shipController = GetComponent<ShipController>();
         boxCollider2d = GetComponent<BoxCollider2D>();
         shipExplosion = GetComponentInChildren<ShipExplosion>();
@@ -110,12 +114,12 @@ public class PlayerStatus : MonoBehaviour
 
             if (actualLives > 0)
             {
-                StartCoroutine(DeathCoroutine(deathDelay,false));
+                StartCoroutine(DeathCoroutine(false));
                 actualLives--;
             }
             else
             {
-                StartCoroutine(DeathCoroutine(deathDelay,true));
+                StartCoroutine(DeathCoroutine(true));
             }
         }
         else
@@ -139,13 +143,14 @@ public class PlayerStatus : MonoBehaviour
     public IEnumerator DisableShieldAnimation()
     {
         shieldAnimator.SetBool("ActiveShieldAnimation", false);
-        yield return new WaitForSeconds(3);
+        yield return cacheWaitDisableShield;
         shield.SetActive(false);
     }
 
-    public IEnumerator DeathCoroutine(float t, bool isGameOver)
+    public IEnumerator DeathCoroutine(bool isGameOver)
     {
-        yield return new WaitForSeconds(t);
+        yield return cacheWaitToDeath;
+
         if (!isGameOver)
         {
             gameMgr.ResetWorld();

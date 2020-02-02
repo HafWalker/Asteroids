@@ -25,12 +25,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     protected AudioClip jetClip;
     
-    private float jetDelay = 0.25f;
+    private WaitForSeconds cacheWaitJetClip;
+    private float jetDelay;
     private bool canPlay = true;
 
     private void Start()
     {
         jetDelay = jetClip.length;
+        cacheWaitJetClip = new WaitForSeconds(jetDelay);
     }
 
     public void PlayShootClip()
@@ -69,14 +71,14 @@ public class AudioManager : MonoBehaviour
         {
             audioSource.clip = jetClip;
             audioSource.Play();
-            StartCoroutine(WaitToPlay(jetDelay));
+            StartCoroutine(WaitToPlay());
             canPlay = false;
         }
     }
 
-    public IEnumerator WaitToPlay(float t)
+    public IEnumerator WaitToPlay()
     {
-        yield return new WaitForSeconds(t);
+        yield return cacheWaitJetClip;
         canPlay = true;
     }
 }

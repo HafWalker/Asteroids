@@ -19,8 +19,8 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     protected float maxVelocity = 100;
 
-    private Rigidbody2D rigidbody_2D;
-    private GameObject propeller;
+    protected Rigidbody2D rigidbody_2D;
+    protected GameObject propeller;
     private Vector2 startPos;  
 
     // Start is called before the first frame update
