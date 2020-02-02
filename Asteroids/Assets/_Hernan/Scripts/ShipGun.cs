@@ -13,6 +13,9 @@ public class ShipGun : MonoBehaviour
     [SerializeField]
     protected float bulletSpeed;
 
+    [SerializeField]
+    protected float reloadTime = 0; // implementar tiempo de recarga 
+
     public void Shoot()
     {
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();

@@ -6,30 +6,42 @@ using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public GameManager gameMgr;
-    public AudioManager audioManager;
+    [SerializeField]
+    protected GameManager gameMgr;
+    
+    [SerializeField]
+    protected AudioManager audioManager;
 
-    private ShipController shipController;
-    private BoxCollider2D boxCollider2d;
-    private ShipExplosion shipExplosion;
+    [SerializeField]
+    protected Image bodyShip;
 
-    public Image bodyShip;
-    public GameObject shield;
-    public Animator shieldAnimator;
+    [SerializeField]
+    protected GameObject shield;
 
-    public Text scoreTxt;
-    private int scoreAmount;
+    [SerializeField]
+    protected Animator shieldAnimator;
 
-    public int lives;
-    private int actualLives;
-    public List<GameObject> livesGameObjects;
+    [SerializeField]
+    protected Text scoreTxt;
 
-    public float deathDelay;
+    [SerializeField]
+    protected int lives;
 
-    private bool haveShield = true;
+    [SerializeField]
+    protected List<GameObject> livesGameObjects;
+
+    [SerializeField]
+    protected float deathDelay;
 
     public delegate void DeathAction();
     public static event DeathAction OnPlayerDeath;
+
+    private int scoreAmount;
+    private int actualLives;
+    private bool haveShield = true;
+    private ShipController shipController;
+    private BoxCollider2D boxCollider2d;
+    private ShipExplosion shipExplosion;
 
     public void Awake()
     {
@@ -114,7 +126,6 @@ public class PlayerStatus : MonoBehaviour
                 StartCoroutine(DisableShieldAnimation());
                 haveShield = false;
             }
-            
         }
     }
 

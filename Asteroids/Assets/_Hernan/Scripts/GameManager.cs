@@ -13,16 +13,24 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    public GameState gameState;
+    [SerializeField]
+    protected GameState gameState;
 
     public AsteroidsManager asteroidMgr;
     public PlayerStatus playerStatus;
 
-    public GameObject canvasMenu;
-    public GameObject canvasGame;
-    public GameObject canvasScore;
+    [SerializeField]
+    protected GameObject canvasMenu;
 
-    public Text highScoreTxt;
+    [SerializeField]
+    protected GameObject canvasGame;
+
+    [SerializeField]
+    protected GameObject canvasScore;
+
+    [SerializeField]
+    protected Text highScoreTxt;
+
     private int actualScore;
     private int highScore; // Seria posible guardar este valor en PlayerPrefs para persistirlo entre ejecuciones
 

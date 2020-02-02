@@ -646,9 +646,6 @@ MonoBehaviour:
   rotSpeed: 10
   forwardSpeed: 120
   maxVelocity: 110
-  timeToReload: 0
-  bulletSpawn: {fileID: 77929083}
-  bulletSpeed: 200
 --- !u!50 &442529448
 Rigidbody2D:
   serializedVersion: 4
@@ -746,8 +743,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioManager: {fileID: 1726783697}
   bulletSpawn: {fileID: 77929083}
-  timeToReload: 0
   bulletSpeed: 200
+  reloadTime: 0
 --- !u!1 &457187637
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,10 +2717,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9edd971c4700b4b90ae8ac1fad48fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMgr: {fileID: 1039266222}
+  gameManager: {fileID: 1039266222}
   audioManager: {fileID: 1726783697}
   startAsteroidsAmount: 4
-  asteroidRef: {fileID: 0}
   bigAsteroid: {fileID: 821314245715573038, guid: b6cdaa88493118d41a9c146ff613049d,
     type: 3}
   midAsteroid: {fileID: 6604253425439144043, guid: 0169d28f915d9c844bb03137cb454c23,
@@ -2731,4 +2727,3 @@ MonoBehaviour:
   smallAsteroid: {fileID: 4510366678482374459, guid: 4a9abb65b33ed2f468cb15c60f4eccca,
     type: 3}
   allAsteroids: []
-  playerStatus: {fileID: 442529451}

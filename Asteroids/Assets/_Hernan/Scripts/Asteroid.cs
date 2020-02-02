@@ -12,24 +12,31 @@ public enum AsteroidType
 
 public class Asteroid : MonoBehaviour
 {
-    public AsteroidType type;
-    private AsteroidsManager asteroidMgr;
-    private GameManager gameMrg;
+    [SerializeField]
+    protected AsteroidType type;
+
+    [SerializeField]
+    protected GameManager gameManager;
+
+    [SerializeField]
+    protected List<Sprite> sprites;
+
+    [SerializeField]
+    protected float minSpeed;
+
+    [SerializeField]
+    protected float maxSpeed;
 
     private Image image;
-    public List<Sprite> sprites;
-
-    public float minSpeed;
-    public float maxSpeed;
 
     private void Awake()
     {
         image = GetComponent<Image>();
     }
 
-    public void Initialize(AsteroidType t, Vector3 pos, GameManager gameManager)
+    public void Initialize(AsteroidType t, Vector3 pos, GameManager gameMgr)
     {
-        gameMrg = gameManager;
+        this.gameManager = gameMgr;
         type = t;
         SetRandomSprite();
         SetRandomMovement();
@@ -67,22 +74,22 @@ public class Asteroid : MonoBehaviour
         if (collision.tag == "Bullet")
         {
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
-            gameMrg.playerStatus.SetScore(10);
+            gameManager.playerStatus.SetScore(10);
 
             if (type != AsteroidType.Small)
             {
-                gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
-                gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
+                gameManager.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
+                gameManager.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
             }
 
-            gameMrg.asteroidMgr.RemoveAsteroid(this.gameObject);
+            gameManager.asteroidMgr.RemoveAsteroid(this.gameObject);
             Destroy(gameObject);
             collision.gameObject.SetActive(false);
         }
 
         if (collision.tag == "Player")
         {
-            gameMrg.playerStatus.RemoveLife();
+            gameManager.playerStatus.RemoveLife();
         }
     }
 }

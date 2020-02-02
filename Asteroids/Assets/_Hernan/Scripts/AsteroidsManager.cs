@@ -4,28 +4,33 @@ using UnityEngine;
 
 public class AsteroidsManager : MonoBehaviour
 {
-    public GameManager gameMgr;
-    public AudioManager audioManager;
+    [SerializeField]
+    protected GameManager gameManager;
 
-    public int startAsteroidsAmount = 4;
+    [SerializeField]
+    protected AudioManager audioManager;
 
-    public GameObject asteroidRef;
+    [SerializeField]
+    protected int startAsteroidsAmount = 4;
 
-    public GameObject bigAsteroid;
-    public GameObject midAsteroid;
-    public GameObject smallAsteroid;
+    [SerializeField]
+    protected GameObject bigAsteroid;
 
-    private Vector2 randomPos;
+    [SerializeField]
+    protected GameObject midAsteroid;
 
-    public List<GameObject> allAsteroids;
+    [SerializeField]
+    protected GameObject smallAsteroid;
 
-    public PlayerStatus playerStatus;
+    [SerializeField]
+    protected List<GameObject> allAsteroids;
 
     //Orden de Edge en Sentido Horario inicia a la Izquierda
     private int edge = 0;
-
     private float bounds_width;
     private float bounds_height;
+    private Vector2 randomPos;
+    private GameObject asteroidRef;
 
     private void Start()
     {
@@ -49,13 +54,12 @@ public class AsteroidsManager : MonoBehaviour
         }
 
         GameObject asteroidClone = Instantiate(asteroidRef, pos, Quaternion.identity, transform);
-        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, gameMgr);
+        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, gameManager);
         allAsteroids.Add(asteroidClone);
     }
 
     public void CreateFirstAsteroids()
     {
-
         for (int i = 0; i < startAsteroidsAmount; i++)
         {
             randomPos = GetRandomPosOnEdge();
