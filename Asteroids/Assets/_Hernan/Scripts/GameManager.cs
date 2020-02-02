@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum GameState
@@ -54,11 +55,6 @@ public class GameManager : MonoBehaviour
                 highScore = actualScore;
                 highScoreTxt.text = highScore.ToString();
             }
-
-            if (playerStatus.isDead)
-            {
-                ChangeGameState(GameState.GameOver);
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -97,5 +93,20 @@ public class GameManager : MonoBehaviour
         asteroidMgr.ResetAsteroids();
         playerStatus.Respawn();
         playerStatus.GetComponent<ShipController>().ResetPos(); // castear
+    }
+
+    public void SetGameOver()
+    {
+        ChangeGameState(GameState.GameOver);
+    }
+
+    private void OnEnable()
+    {
+        PlayerStatus.OnPlayerDeath += SetGameOver;
+    }
+
+    private void OnDisable()
+    {
+        PlayerStatus.OnPlayerDeath -= SetGameOver;
     }
 }

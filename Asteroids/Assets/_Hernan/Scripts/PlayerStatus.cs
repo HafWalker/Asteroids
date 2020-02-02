@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
@@ -26,7 +27,9 @@ public class PlayerStatus : MonoBehaviour
     public float deathDelay;
 
     private bool haveShield = true;
-    public bool isDead = false;
+
+    public delegate void DeadAction();
+    public static event DeadAction OnPlayerDeath;
 
     public void Awake()
     {
@@ -37,7 +40,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void Initialize()
     {
-        isDead = false;
+        //isDead = false;
 
         foreach (var Life in livesGameObjects)
         {
@@ -138,7 +141,7 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            isDead = true;
+            OnPlayerDeath();
         }
     }
 }
