@@ -33,7 +33,7 @@ public class AsteroidsManager : MonoBehaviour
         bounds_height = Screen.height/2;
     }
 
-    public void CreateNewAsteroid(Vector2 pos, Type t)
+    public void CreateNewAsteroid(Vector2 pos, AsteroidType t)
     {
         switch ((int)t)
         {
@@ -59,7 +59,7 @@ public class AsteroidsManager : MonoBehaviour
         for (int i = 0; i < startAsteroidsAmount; i++)
         {
             randomPos = GetRandomPosOnEdge();
-            CreateNewAsteroid(randomPos, Type.Big);
+            CreateNewAsteroid(randomPos, AsteroidType.Big);
         }
     }
 

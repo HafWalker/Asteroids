@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Type
+public enum AsteroidType
 {
     Big,
     Medium,
@@ -12,7 +12,7 @@ public enum Type
 
 public class Asteroid : MonoBehaviour
 {
-    public Type type;
+    public AsteroidType type;
     private AsteroidsManager asteroidMgr;
     private GameManager gameMrg;
 
@@ -27,7 +27,7 @@ public class Asteroid : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    public void Initialize(Type t, Vector3 pos, GameManager gameManager)
+    public void Initialize(AsteroidType t, Vector3 pos, GameManager gameManager)
     {
         gameMrg = gameManager;
         type = t;
@@ -69,7 +69,7 @@ public class Asteroid : MonoBehaviour
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
             gameMrg.playerStatus.SetScore(10);
 
-            if (type != Type.Small)
+            if (type != AsteroidType.Small)
             {
                 gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
                 gameMrg.asteroidMgr.CreateNewAsteroid(transform.position, type + 1);
