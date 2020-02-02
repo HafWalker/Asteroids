@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float bulletLife = 5;
+    [SerializeField]
+    protected float bulletLife = 5;
 
     private void OnEnable()
     {

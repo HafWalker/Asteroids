@@ -11,9 +11,14 @@ public class ObjectPooler : MonoBehaviour
         SharedInstance = this;
     }
 
-    public List<GameObject> pooledObjects;
-    public GameObject objectToPool;
-    public int amountToPool;
+    [SerializeField]
+    protected List<GameObject> pooledObjects;
+    
+    [SerializeField]
+    protected GameObject objectToPool;
+    
+    [SerializeField]
+    protected int amountToPool;
 
     // Start is called before the first frame update
     void Start()

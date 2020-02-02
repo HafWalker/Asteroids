@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    [SerializeField]
+    protected AudioSource audioSource;
 
-    public AudioClip shootClip;
-    public AudioClip explosionClip;
-    public AudioClip shipExplosionClip;
-    public AudioClip shipRespawnClip;
-    public AudioClip shieldHitClip;
+    [SerializeField]
+    protected AudioClip shootClip;
 
-    public AudioClip jetClip;
+    [SerializeField]
+    protected AudioClip explosionClip;
+
+    [SerializeField]
+    protected AudioClip shipExplosionClip;
+
+    [SerializeField]
+    protected AudioClip shipRespawnClip;
+
+    [SerializeField]
+    protected AudioClip shieldHitClip;
+
+    [SerializeField]
+    protected AudioClip jetClip;
+    
     private float jetDelay = 0.25f;
     private bool canPlay = true;
 
