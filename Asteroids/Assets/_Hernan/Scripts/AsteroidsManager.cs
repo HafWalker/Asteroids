@@ -41,6 +41,7 @@ public class AsteroidsManager : MonoBehaviour
     private void Start()
     {
         cam = FindObjectOfType<Camera>();
+
         right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
         left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
         top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;

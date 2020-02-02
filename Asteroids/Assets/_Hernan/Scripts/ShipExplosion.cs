@@ -4,19 +4,32 @@ using UnityEngine;
 
 public class ShipExplosion : MonoBehaviour
 {
-    public List<Transform> parts;
+    [SerializeField]
+    protected List<Transform> parts;
 
-    public float explosionForce;
-    public float explosionSpeedRange;
+    [SerializeField]
+    protected float explosionForce;
+    [SerializeField]
+    protected float explosionSpeedRange;
 
-    public float lifeTime;
-    public float lifeTimeRange;
+    [SerializeField]
+    protected float lifeTime;
+    [SerializeField]
+    protected float lifeTimeRange;
 
-    public float angularSpeed;
-    public float angularSpeedRange;
+    [SerializeField]
+    protected float angularSpeed;
+    [SerializeField]
+    protected float angularSpeedRange;
 
-    public List<Rigidbody2D> partsRigidbody;
-    public List<Vector3> partsPositions;
+    [SerializeField]
+    protected List<Rigidbody2D> partsRigidbody;
+    [SerializeField]
+    protected List<Vector3> partsPositions;
+
+    private float expSpeed;
+    private float randomAngularSpeed;
+    private float randomTime;
 
     private void Start()
     {
@@ -42,19 +55,19 @@ public class ShipExplosion : MonoBehaviour
         foreach (Transform part in parts)
         {
             // Calculo de vector de Fuerza
-            Vector3 dir = transform.position - part.position;
+            Vector3 dir = part.position - transform.position;
             dir.Normalize();
 
             // Random de fuerza de explosion
-            float expSpeed = Random.Range(explosionForce - explosionSpeedRange, explosionForce + explosionSpeedRange);
-            part.GetComponent<Rigidbody2D>().AddForce(dir * -expSpeed, ForceMode2D.Impulse);
+            expSpeed = Random.Range(explosionForce - explosionSpeedRange, explosionForce + explosionSpeedRange);
+            part.GetComponent<Rigidbody2D>().AddForce(dir * expSpeed, ForceMode2D.Impulse);
 
             // Random de velocidad de Rotacion
-            float randomAngularSpeed = Random.Range(angularSpeed - angularSpeedRange, angularSpeed + angularSpeedRange);
+            randomAngularSpeed = Random.Range(angularSpeed - angularSpeedRange, angularSpeed + angularSpeedRange);
             part.GetComponent<Rigidbody2D>().AddTorque(randomAngularSpeed, ForceMode2D.Impulse);
 
             // Rando LifeTime
-            float randomTime = Random.Range(lifeTime - lifeTimeRange, lifeTime + lifeTimeRange);
+            randomTime = Random.Range(lifeTime - lifeTimeRange, lifeTime + lifeTimeRange);
             StartCoroutine(TimeToDisable(randomTime, part));
         }
     }
