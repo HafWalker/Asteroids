@@ -22,21 +22,16 @@ public class PlayerStatus : MonoBehaviour
     protected Animator shieldAnimator;
 
     [SerializeField]
-    protected Text scoreTxt;
-
-    [SerializeField]
     protected int lives;
-
-    [SerializeField]
-    protected List<GameObject> livesGameObjects;
 
     [SerializeField]
     protected float deathDelay;
 
+    private int score;
+
     public delegate void DeathAction();
     public static event DeathAction OnPlayerDeath;
 
-    private int scoreAmount;
     private int actualLives;
     private bool haveShield = true;
     private ShipController shipController;
@@ -56,37 +51,21 @@ public class PlayerStatus : MonoBehaviour
 
     public void Initialize()
     {
-        //isDead = false;
-
-        foreach (var Life in livesGameObjects)
-        {
-            Life.SetActive(false);
-        }
-
-        scoreAmount = 0;
-        scoreTxt.text = scoreAmount.ToString();
-
-        actualLives = lives-1;
-
-        for (int i = 0; i < lives; i++)
-        {
-            livesGameObjects[i].SetActive(true);
-        }
-
-        StopAllCoroutines();
-
+        score = 0;
+        actualLives = lives - 1;
+        gameMgr.gameUI.ResetUI();
         EnableShield();
-    }
-
-    public void SetScore(int amount)
-    {
-        scoreAmount += amount;
-        scoreTxt.text = scoreAmount.ToString();
     }
 
     public int GetScore()
     {
-        return scoreAmount;
+        return score;
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+        gameMgr.gameUI.SetScore(score);
     }
 
     public void Respawn()
@@ -101,7 +80,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if (!shield.activeInHierarchy)
         {
-            livesGameObjects[actualLives].SetActive(false);
+            gameMgr.gameUI.RestLife(actualLives);
 
             shipExplosion.Explode(transform.position);
             audioManager.playShipExplosionClip();
@@ -153,7 +132,7 @@ public class PlayerStatus : MonoBehaviour
 
         if (!isGameOver)
         {
-            gameMgr.ResetWorld();
+            gameMgr.ResetStage();
         }
         else
         {

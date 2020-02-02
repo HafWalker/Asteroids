@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public AsteroidsManager asteroidMgr;
     public PlayerStatus playerStatus;
+    public GameUI gameUI;
 
     [SerializeField]
     protected GameObject canvasMenu;
@@ -31,15 +32,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     protected GameObject canvasScore;
 
-    [SerializeField]
-    protected Text highScoreTxt;
-
     private int actualScore;
-    private int highScore; // Seria posible guardar este valor en PlayerPrefs para persistirlo entre ejecuciones
+    private int highScore;
 
     void Start()
     {
-        highScoreTxt.text = "0";
         ChangeGameState(GameState.Menu);
     }
 
@@ -54,17 +51,6 @@ public class GameManager : MonoBehaviour
             else if(gameState == GameState.GameOver) 
             {
                 ChangeGameState(GameState.Menu);
-            }
-        }
-
-        if (gameState == GameState.GameStart)
-        {
-            actualScore = playerStatus.GetScore();
-
-            if (actualScore > highScore)
-            {
-                highScore = actualScore;
-                highScoreTxt.text = highScore.ToString();
             }
         }
 
@@ -92,7 +78,7 @@ public class GameManager : MonoBehaviour
                 canvasGame.SetActive(true);
                 gameContainer.SetActive(true);
                 playerStatus.Initialize();
-                ResetWorld();
+                ResetStage();
                 break;
             case 2:
                 canvasScore.SetActive(true);
@@ -102,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ResetWorld()
+    public void ResetStage()
     {
         asteroidMgr.ResetAsteroids();
         playerStatus.Respawn();
@@ -112,6 +98,17 @@ public class GameManager : MonoBehaviour
     public void SetGameOver()
     {
         ChangeGameState(GameState.GameOver);
+    }
+
+    public void CheckHighScore()
+    {
+        actualScore = playerStatus.GetScore();
+
+        if (actualScore > highScore)
+        {
+            highScore = actualScore;
+            gameUI.SetHighScore(actualScore);
+        }
     }
 
     private void OnEnable()

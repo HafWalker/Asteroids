@@ -472,8 +472,8 @@ MonoBehaviour:
   - {fileID: 696466020}
   explosionForce: 0.1
   explosionSpeedRange: 0.05
-  lifeTime: 1
-  lifeTimeRange: 0.5
+  lifeTime: 2.5
+  lifeTimeRange: 1
   angularSpeed: 0.3
   angularSpeedRange: 0.05
   partsRigidbody: []
@@ -1231,6 +1231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 823103175}
+  - component: {fileID: 823103176}
   m_Layer: 5
   m_Name: Game_UI
   m_TagString: Untagged
@@ -1262,6 +1263,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -45}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &823103176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823103174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05a3137e6fa9d740b40483dea78d4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreTxt: {fileID: 2105972217}
+  livesGameObjects:
+  - {fileID: 635528885}
+  - {fileID: 1935760109}
+  - {fileID: 10973843}
+  highScoreTxt: {fileID: 946916681}
 --- !u!1 &841905464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,11 +1806,11 @@ MonoBehaviour:
   gameState: 0
   asteroidMgr: {fileID: 841905466}
   playerStatus: {fileID: 1604257527}
+  gameUI: {fileID: 823103176}
   canvasMenu: {fileID: 16109431}
   canvasGame: {fileID: 457187637}
   gameContainer: {fileID: 1655856797}
   canvasScore: {fileID: 806682388}
-  highScoreTxt: {fileID: 946916681}
 --- !u!1 &1256032411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,12 +2144,7 @@ MonoBehaviour:
   bodyShip: {fileID: 1690400430}
   shield: {fileID: 353350311}
   shieldAnimator: {fileID: 353350313}
-  scoreTxt: {fileID: 2105972217}
   lives: 3
-  livesGameObjects:
-  - {fileID: 635528885}
-  - {fileID: 1935760109}
-  - {fileID: 10973843}
   deathDelay: 4
 --- !u!114 &1604257528
 MonoBehaviour:

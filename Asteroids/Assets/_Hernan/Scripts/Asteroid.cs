@@ -73,7 +73,8 @@ public class Asteroid : MonoBehaviour
             collision.gameObject.SetActive(false);
 
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
-            gameManager.playerStatus.SetScore(10);
+            gameManager.playerStatus.AddScore(10);
+            gameManager.CheckHighScore();
 
             if (type != AsteroidType.Small)
             {
