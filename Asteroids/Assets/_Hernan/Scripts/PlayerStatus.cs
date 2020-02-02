@@ -28,8 +28,8 @@ public class PlayerStatus : MonoBehaviour
 
     private bool haveShield = true;
 
-    public delegate void DeadAction();
-    public static event DeadAction OnPlayerDeath;
+    public delegate void DeathAction();
+    public static event DeathAction OnPlayerDeath;
 
     public void Awake()
     {
