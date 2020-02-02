@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BoundsDetector : MonoBehaviour
 {
-    private float bounds_height;
-    private float bounds_width;
+    private Camera cam;
 
     private float left_bound;
     private float right_bound;
@@ -16,46 +15,46 @@ public class BoundsDetector : MonoBehaviour
 
     void Start()
     {
-        bounds_height = Screen.height*2;
-        bounds_width = Screen.width*2;
+        cam = FindObjectOfType<Camera>();
 
-        right_bound = bounds_width / 2;
-        left_bound = -right_bound;
-        top_bound = bounds_height / 2;
-        bottom_bound = -top_bound;
+        right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
+        left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
+        top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;
+        bottom_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).y;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.localPosition.x < left_bound) 
+        if (transform.position.x < left_bound) 
         {
             templVector.x = right_bound;
             templVector.y = transform.localPosition.y;
             templVector.z = transform.localPosition.z;
-            transform.localPosition = templVector; 
+            transform.position = templVector; 
         }
-        else if (transform.localPosition.x > right_bound)
+        else if (transform.position.x > right_bound)
         {
             templVector.x = left_bound;
             templVector.y = transform.localPosition.y;
             templVector.z = transform.localPosition.z;
-            transform.localPosition = templVector;
+            transform.position = templVector;
         }
 
-        if (transform.localPosition.y > top_bound)
+        if (transform.position.y > top_bound)
         {
             templVector.x = transform.localPosition.x;
             templVector.y = bottom_bound;
             templVector.z = transform.localPosition.z;
-            transform.localPosition = templVector;
+            transform.position = templVector;
         }
-        else if (transform.localPosition.y < bottom_bound)
+        else if (transform.position.y < bottom_bound)
         {
             templVector.x = transform.localPosition.x;
             templVector.y = top_bound;
             templVector.z = transform.localPosition.z;
-            transform.localPosition = templVector;
+            transform.position = templVector;
         }
     }
 }

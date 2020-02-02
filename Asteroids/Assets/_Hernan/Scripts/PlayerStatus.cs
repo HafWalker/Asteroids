@@ -13,7 +13,7 @@ public class PlayerStatus : MonoBehaviour
     protected AudioManager audioManager;
 
     [SerializeField]
-    protected Image bodyShip;
+    protected SpriteRenderer bodyShip;
 
     [SerializeField]
     protected GameObject shield;

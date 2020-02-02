@@ -27,11 +27,11 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     protected float maxSpeed;
 
-    private Image image;
+    private SpriteRenderer image;
 
     private void Awake()
     {
-        image = GetComponent<Image>();
+        image = GetComponent<SpriteRenderer>();
     }
 
     public void Initialize(AsteroidType t, Vector3 pos, GameManager gameMgr)
@@ -56,15 +56,12 @@ public class Asteroid : MonoBehaviour
         {
             case 0:
                 image.sprite = sprites[Random.Range(0, 4)];
-                image.SetNativeSize();
                 break;
             case 1:
                 image.sprite = sprites[Random.Range(4, 8)];
-                image.SetNativeSize();
                 break;
             case 2:
                 image.sprite = sprites[Random.Range(8, 12)];
-                image.SetNativeSize();
                 break;
         }
     }
@@ -73,6 +70,8 @@ public class Asteroid : MonoBehaviour
     {
         if (collision.tag == "Bullet")
         {
+            collision.gameObject.SetActive(false);
+
             // Seria posible agregar una variable de "puntaje" para cada tipo de Asteroide
             gameManager.playerStatus.SetScore(10);
 
@@ -84,7 +83,6 @@ public class Asteroid : MonoBehaviour
 
             gameManager.asteroidMgr.RemoveAsteroid(this.gameObject);
             Destroy(gameObject);
-            collision.gameObject.SetActive(false);
         }
 
         if (collision.tag == "Player")

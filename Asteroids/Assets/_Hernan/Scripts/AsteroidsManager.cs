@@ -32,10 +32,19 @@ public class AsteroidsManager : MonoBehaviour
     private Vector2 randomPos;
     private GameObject asteroidRef;
 
+    private Camera cam;
+    private float left_bound;
+    private float right_bound;
+    private float top_bound;
+    private float bottom_bound;
+
     private void Start()
     {
-        bounds_width = Screen.width/2;
-        bounds_height = Screen.height/2;
+        cam = FindObjectOfType<Camera>();
+        right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
+        left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
+        top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;
+        bottom_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).y;
     }
 
     public void CreateNewAsteroid(Vector2 pos, AsteroidType t)
@@ -107,20 +116,20 @@ public class AsteroidsManager : MonoBehaviour
         switch (edge)
         {
             case 0: //Left
-                xPos = -bounds_width;
-                yPos = Random.Range(0, bounds_height);
+                xPos = left_bound; 
+                yPos = Random.Range(bottom_bound, top_bound);
                 break;
             case 1: //Top
-                xPos = Random.Range(0, bounds_width); ;
-                yPos = bounds_height;
+                xPos = Random.Range(left_bound, right_bound); ;
+                yPos = top_bound;
                 break;
             case 2: //Right
-                xPos = bounds_width;
-                yPos = Random.Range(0, bounds_height);
+                xPos = right_bound;
+                yPos = Random.Range(bottom_bound, top_bound);
                 break;
             case 3: //Bot
-                xPos = Random.Range(0, bounds_width); ;
-                yPos = -bounds_height;
+                xPos = Random.Range(left_bound, right_bound); ;
+                yPos = bottom_bound;
                 break;
         }
 
@@ -131,6 +140,6 @@ public class AsteroidsManager : MonoBehaviour
             edge = 0;
         }
 
-        return new Vector2(xPos + bounds_width, yPos + bounds_height);
+        return new Vector2(xPos, yPos);
     }
 }

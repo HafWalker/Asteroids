@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     protected GameObject canvasGame;
 
     [SerializeField]
+    protected GameObject gameContainer;
+
+    [SerializeField]
     protected GameObject canvasScore;
 
     [SerializeField]
@@ -82,16 +85,19 @@ public class GameManager : MonoBehaviour
                 canvasMenu.SetActive(true);
                 canvasScore.SetActive(false);
                 canvasGame.SetActive(false);
+                gameContainer.SetActive(false);
                 break;
             case 1:
                 canvasMenu.SetActive(false);
                 canvasGame.SetActive(true);
+                gameContainer.SetActive(true);
                 playerStatus.Initialize();
                 ResetWorld();
                 break;
             case 2:
                 canvasScore.SetActive(true);
                 canvasGame.SetActive(false);
+                gameContainer.SetActive(false);
                 break;
         }
     }
