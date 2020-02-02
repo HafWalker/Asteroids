@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    public AudioManager audioManager;
+    [SerializeField]
+    protected AudioManager audioManager;
 
-    public float rotSpeed;
-    public float forwardSpeed;
-    public float maxVelocity = 100;
+    [SerializeField]
+    protected ShipGun shipGun;
 
-    public float timeToReload;
+    [SerializeField]
+    protected float rotSpeed;
+
+    [SerializeField]
+    protected float forwardSpeed;
+
+    [SerializeField]
+    protected float maxVelocity = 100;
 
     private Rigidbody2D rigidbody_2D;
-
     private GameObject propeller;
-
-    public Transform bulletSpawn;
-    private bool canFire = true;
-    public float bulletSpeed;
-
     private Vector2 startPos;  
 
     // Start is called before the first frame update
@@ -63,10 +64,7 @@ public class ShipController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (canFire)
-            {
-                Shoot();
-            }
+            shipGun.Shoot();
         }
     }
 
@@ -77,32 +75,8 @@ public class ShipController : MonoBehaviour
         transform.position = startPos;
     }
 
-    public void Shoot() 
-    {
-        
-        GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();
-        if (bullet != null)
-        {
-            bullet.transform.position = bulletSpawn.position;
-            bullet.transform.rotation = bulletSpawn.rotation;
-            bullet.SetActive(true);
-            bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpawn.up * bulletSpeed, ForceMode2D.Impulse);
-        }
-        canFire = false;
-
-        audioManager.PlayShootClip();
-
-        StartCoroutine(WaitToReload());
-    }
-
     public void DisableShipRenderer()
     {
         propeller.SetActive(false);
-    }
-
-    public IEnumerator WaitToReload()
-    {
-        yield return new WaitForSeconds(timeToReload);
-        canFire = true;
     }
 }
