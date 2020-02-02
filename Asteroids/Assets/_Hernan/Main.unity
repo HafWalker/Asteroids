@@ -558,8 +558,9 @@ GameObject:
   - component: {fileID: 442529450}
   - component: {fileID: 442529448}
   - component: {fileID: 442529447}
-  - component: {fileID: 442529449}
+  - component: {fileID: 442529452}
   - component: {fileID: 442529451}
+  - component: {fileID: 442529449}
   m_Layer: 5
   m_Name: Player_Ship
   m_TagString: Player
@@ -641,6 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 1726783697}
+  shipGun: {fileID: 442529452}
   rotSpeed: 10
   forwardSpeed: 120
   maxVelocity: 110
@@ -730,7 +732,22 @@ MonoBehaviour:
   - {fileID: 1935760109}
   - {fileID: 10973843}
   deathDelay: 4
-  isDead: 0
+--- !u!114 &442529452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442529443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8485967c227a343aa6eaaf4e3db45c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioManager: {fileID: 1726783697}
+  bulletSpawn: {fileID: 77929083}
+  timeToReload: 0
+  bulletSpeed: 200
 --- !u!1 &457187637
 GameObject:
   m_ObjectHideFlags: 0
