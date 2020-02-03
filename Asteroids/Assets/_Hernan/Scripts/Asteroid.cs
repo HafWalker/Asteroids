@@ -68,7 +68,7 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Bullet")
+        if (collision.CompareTag("Bullet"))
         {
             collision.gameObject.SetActive(false);
 
@@ -86,7 +86,7 @@ public class Asteroid : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             gameManager.playerStatus.RemoveLife();
         }

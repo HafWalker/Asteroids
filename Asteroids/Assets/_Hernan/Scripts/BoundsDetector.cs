@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoundsDetector : MonoBehaviour
 {
     private Camera cam;
-
     private float left_bound;
     private float right_bound;
     private float top_bound;
@@ -16,15 +15,12 @@ public class BoundsDetector : MonoBehaviour
     void Start()
     {
         cam = FindObjectOfType<Camera>();
-
         right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
         left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
         top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;
         bottom_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).y;
-        
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (transform.position.x < left_bound) 

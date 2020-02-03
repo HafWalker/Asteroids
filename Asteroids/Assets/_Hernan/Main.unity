@@ -1334,6 +1334,7 @@ MonoBehaviour:
   smallAsteroid: {fileID: 2090672341223158419, guid: 7d7c0535dfca7d3438a04a931b72d8e6,
     type: 3}
   allAsteroids: []
+  cam: {fileID: 1454954085}
 --- !u!1 &848771011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,8 +1810,8 @@ MonoBehaviour:
   gameUI: {fileID: 823103176}
   canvasMenu: {fileID: 16109431}
   canvasGame: {fileID: 457187637}
-  gameContainer: {fileID: 1655856797}
   canvasScore: {fileID: 806682388}
+  gameContainer: {fileID: 1655856797}
 --- !u!1 &1256032411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,7 +1902,7 @@ GameObject:
   - component: {fileID: 1454954084}
   m_Layer: 0
   m_Name: MainCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

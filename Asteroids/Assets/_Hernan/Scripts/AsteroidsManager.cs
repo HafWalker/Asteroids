@@ -25,6 +25,9 @@ public class AsteroidsManager : MonoBehaviour
     [SerializeField]
     protected List<GameObject> allAsteroids;
 
+    [SerializeField]
+    protected Camera cam;
+
     //Orden de Edge en Sentido Horario inicia a la Izquierda
     private int edge = 0;
     private float bounds_width;
@@ -32,7 +35,6 @@ public class AsteroidsManager : MonoBehaviour
     private Vector2 randomPos;
     private GameObject asteroidRef;
 
-    private Camera cam;
     private float left_bound;
     private float right_bound;
     private float top_bound;
@@ -40,8 +42,6 @@ public class AsteroidsManager : MonoBehaviour
 
     private void Start()
     {
-        cam = FindObjectOfType<Camera>();
-
         right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
         left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
         top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;

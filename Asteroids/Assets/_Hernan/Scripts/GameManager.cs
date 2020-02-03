@@ -27,10 +27,10 @@ public class GameManager : MonoBehaviour
     protected GameObject canvasGame;
 
     [SerializeField]
-    protected GameObject gameContainer;
+    protected GameObject canvasScore;
 
     [SerializeField]
-    protected GameObject canvasScore;
+    protected GameObject gameContainer;
 
     private int actualScore;
     private int highScore;
