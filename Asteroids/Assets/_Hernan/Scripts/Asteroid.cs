@@ -27,11 +27,11 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     protected float maxSpeed;
 
-    private SpriteRenderer image;
+    private SpriteRenderer spriteRender;
 
     private void Awake()
     {
-        image = GetComponent<SpriteRenderer>();
+        spriteRender = GetComponent<SpriteRenderer>();
     }
 
     public void Initialize(AsteroidType t, Vector3 pos, GameManager gameMgr)
@@ -55,13 +55,13 @@ public class Asteroid : MonoBehaviour
         switch ((int)type)
         {
             case 0:
-                image.sprite = sprites[Random.Range(0, 4)];
+                spriteRender.sprite = sprites[Random.Range(0, 4)];
                 break;
             case 1:
-                image.sprite = sprites[Random.Range(4, 8)];
+                spriteRender.sprite = sprites[Random.Range(4, 8)];
                 break;
             case 2:
-                image.sprite = sprites[Random.Range(8, 12)];
+                spriteRender.sprite = sprites[Random.Range(8, 12)];
                 break;
         }
     }

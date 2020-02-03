@@ -30,8 +30,6 @@ public class AsteroidsManager : MonoBehaviour
 
     //Orden de Edge en Sentido Horario inicia a la Izquierda
     private int edge = 0;
-    private float bounds_width;
-    private float bounds_height;
     private Vector2 randomPos;
     private GameObject asteroidRef;
 
