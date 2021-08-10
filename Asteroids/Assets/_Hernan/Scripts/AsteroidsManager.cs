@@ -2,141 +2,109 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidsManager : MonoBehaviour
-{
-    [SerializeField]
-    protected GameManager gameManager;
+public class AsteroidsManager : MonoBehaviour {
 
-    [SerializeField]
-    protected AudioManager audioManager;
-
-    [SerializeField]
-    protected int startAsteroidsAmount = 4;
-
-    [SerializeField]
-    protected GameObject bigAsteroid;
-
-    [SerializeField]
-    protected GameObject midAsteroid;
-
-    [SerializeField]
-    protected GameObject smallAsteroid;
-
-    [SerializeField]
-    protected List<GameObject> allAsteroids;
-
-    [SerializeField]
-    protected Camera cam;
+    public GameManager gameManager;
+    public AudioManager audioManager;
+    public int startAsteroidsAmount = 4;
+    public GameObject bigAsteroid;
+    public GameObject midAsteroid;
+    public GameObject smallAsteroid;
+    public List<GameObject> allAsteroids;
+    public Camera cam;
 
     //Orden de Edge en Sentido Horario inicia a la Izquierda
-    private int edge = 0;
-    private Vector2 randomPos;
-    private GameObject asteroidRef;
+    private int m_edge = 0;
+    private Vector2 m_randomPos;
+    private GameObject m_asteroidRef;
 
-    private float left_bound;
-    private float right_bound;
-    private float top_bound;
-    private float bottom_bound;
+    private float m_left_bound;
+    private float m_right_bound;
+    private float m_top_bound;
+    private float m_bottom_bound;
 
-    private void Start()
-    {
-        right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
-        left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
-        top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;
-        bottom_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).y;
+    private void Start() {
+        m_right_bound = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0f, -1f)).x;
+        m_left_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).x;
+        m_top_bound = cam.ScreenToWorldPoint(new Vector3(0f, Screen.height, -1f)).y;
+        m_bottom_bound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, -1f)).y;
     }
 
-    public void CreateNewAsteroid(Vector2 pos, AsteroidType t)
-    {
-        switch ((int)t)
-        {
+    public void CreateNewAsteroid(Vector2 pos, AsteroidType t) {
+        switch ((int)t) {
             case 0:
-                asteroidRef = bigAsteroid;
+                m_asteroidRef = bigAsteroid;
                 break;
             case 1:
-                asteroidRef = midAsteroid;
+                m_asteroidRef = midAsteroid;
                 break;
             case 2:
-                asteroidRef = smallAsteroid;
+                m_asteroidRef = smallAsteroid;
                 break;
         }
 
-        GameObject asteroidClone = Instantiate(asteroidRef, pos, Quaternion.identity, transform);
-        asteroidClone.GetComponent<Asteroid>().Initialize(t, pos, gameManager);
+        GameObject asteroidClone = Instantiate(m_asteroidRef, pos, Quaternion.identity, transform);
+        asteroidClone.GetComponent<Asteroid>().Initialize(t, gameManager);
         allAsteroids.Add(asteroidClone);
     }
 
-    public void CreateFirstAsteroids()
-    {
-        for (int i = 0; i < startAsteroidsAmount; i++)
-        {
-            randomPos = GetRandomPosOnEdge();
-            CreateNewAsteroid(randomPos, AsteroidType.Big);
+    public void CreateAsteroids() {
+        for (int i = 0; i < startAsteroidsAmount; i++) {
+            m_randomPos = GetRandomPosOnEdge();
+            CreateNewAsteroid(m_randomPos, AsteroidType.Big);
         }
     }
 
-    public void RemoveAsteroid(GameObject asteroid) 
-    {
+    public void RemoveAsteroid(GameObject asteroid) {
         audioManager.playExplosionClip();
         allAsteroids.Remove(asteroid);
 
-        if (allAsteroids.Count == 0)
-        {
+        if (allAsteroids.Count == 0) {
             ResetAsteroids();
         }
 
-        for (int i = 0; i < allAsteroids.Count; i++)
-        {
-            if(allAsteroids[i] == null)
-            {
-                //print("MISING");
+        for (int i = 0; i < allAsteroids.Count; i++) {
+            if(allAsteroids[i] == null) {
                 allAsteroids.Remove(allAsteroids[i]);
             }
         }
     }
 
-    public void ResetAsteroids()
-    {
-        edge = 0;
-
-        foreach (GameObject asteroid in allAsteroids)
-        {
+    public void ResetAsteroids() {
+        m_edge = 0;
+        foreach (GameObject asteroid in allAsteroids) {
             Destroy(asteroid);
         }
-
-        CreateFirstAsteroids();
+        CreateAsteroids();
     }
 
-    public Vector2 GetRandomPosOnEdge()
-    {
+    public Vector2 GetRandomPosOnEdge() {
         float xPos = 0;
         float yPos = 0;
 
-        switch (edge)
-        {
+        switch (m_edge) {
             case 0: //Left
-                xPos = left_bound; 
-                yPos = Random.Range(bottom_bound, top_bound);
+                xPos = m_left_bound; 
+                yPos = Random.Range(m_bottom_bound, m_top_bound);
                 break;
             case 1: //Top
-                xPos = Random.Range(left_bound, right_bound); ;
-                yPos = top_bound;
+                xPos = Random.Range(m_left_bound, m_right_bound); ;
+                yPos = m_top_bound;
                 break;
             case 2: //Right
-                xPos = right_bound;
-                yPos = Random.Range(bottom_bound, top_bound);
+                xPos = m_right_bound;
+                yPos = Random.Range(m_bottom_bound, m_top_bound);
                 break;
             case 3: //Bot
-                xPos = Random.Range(left_bound, right_bound); ;
-                yPos = bottom_bound;
+                xPos = Random.Range(m_left_bound, m_right_bound); ;
+                yPos = m_bottom_bound;
                 break;
         }
 
-        edge++;
+        m_edge++;
 
-        if (edge > 3)
-        {
-            edge = 0;
+        if (m_edge > 3) {
+            m_edge = 0;
         }
 
         return new Vector2(xPos, yPos);

@@ -4,68 +4,49 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public enum GameState
-{
-    Menu,
-    GameStart,
-    GameOver
+public enum GAMESTATE {
+    MENU,
+    START,
+    ENDGAME
 }
 
-public class GameManager : MonoBehaviour
-{
-    [SerializeField]
-    protected GameState gameState;
+public class GameManager : MonoBehaviour {
 
-    public AsteroidsManager asteroidMgr;
+    public GAMESTATE gameState;
+    public AsteroidsManager asteroidManager;
     public PlayerStatus playerStatus;
     public GameUI gameUI;
 
-    [SerializeField]
-    protected GameObject canvasMenu;
+    public GameObject canvasMenu;
+    public GameObject canvasGame;
+    public GameObject canvasScore;
+    public GameObject gameContainer;
 
-    [SerializeField]
-    protected GameObject canvasGame;
+    private int m_actualScore;
+    private int m_highScore;
 
-    [SerializeField]
-    protected GameObject canvasScore;
-
-    [SerializeField]
-    protected GameObject gameContainer;
-
-    private int actualScore;
-    private int highScore;
-
-    void Start()
-    {
-        ChangeGameState(GameState.Menu);
+    void Start() {
+        ChangeGameState(GAMESTATE.MENU);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (gameState == GameState.Menu)
-            {
-                ChangeGameState(GameState.GameStart);
-            }
-            else if(gameState == GameState.GameOver) 
-            {
-                ChangeGameState(GameState.Menu);
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (gameState == GAMESTATE.MENU) {
+                ChangeGameState(GAMESTATE.START);
+            } else if(gameState == GAMESTATE.ENDGAME) {
+                ChangeGameState(GAMESTATE.MENU);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }
     }
 
-    public void ChangeGameState(GameState newState)
-    {
+    public void ChangeGameState(GAMESTATE newState) {
         gameState = newState;
 
-        switch ((int)newState)
-        {
+        switch ((int)newState) {
             case 0:
                 StopAllCoroutines();
                 canvasMenu.SetActive(true);
@@ -88,36 +69,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ResetStage()
-    {
-        asteroidMgr.ResetAsteroids();
+    public void ResetStage() {
+        asteroidManager.ResetAsteroids();
         playerStatus.Respawn();
-        playerStatus.GetComponent<ShipController>().ResetPos(); // castear
+        playerStatus.GetComponent<ShipController>().ResetPos();
     }
 
-    public void SetGameOver()
-    {
-        ChangeGameState(GameState.GameOver);
+    public void SetGameOver() {
+        ChangeGameState(GAMESTATE.ENDGAME);
     }
 
-    public void CheckHighScore()
-    {
-        actualScore = playerStatus.GetScore();
+    public void CheckHighScore() {
+        m_actualScore = playerStatus.GetScore();
 
-        if (actualScore > highScore)
-        {
-            highScore = actualScore;
-            gameUI.SetHighScore(actualScore);
+        if (m_actualScore > m_highScore) {
+            m_highScore = m_actualScore;
+            gameUI.SetHighScore(m_actualScore);
         }
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         PlayerStatus.OnPlayerDeath += SetGameOver;
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         PlayerStatus.OnPlayerDeath -= SetGameOver;
     }
 }

@@ -2,25 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipGun : MonoBehaviour
-{
-    [SerializeField]
-    protected AudioManager audioManager;
+public class ShipGun : MonoBehaviour {
+    
+    public AudioManager audioManager;
+    public Transform bulletSpawn;
+    public float bulletSpeed;
+    public float reloadTime = 0;
 
-    [SerializeField]
-    protected Transform bulletSpawn;
-
-    [SerializeField]
-    protected float bulletSpeed;
-
-    [SerializeField]
-    protected float reloadTime = 0; // implementar tiempo de recarga 
-
-    public void Shoot()
-    {
+    public void Shoot() {
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();
-        if (bullet != null)
-        {
+        if (bullet != null) {
             bullet.transform.position = bulletSpawn.position;
             bullet.transform.rotation = bulletSpawn.rotation;
             bullet.SetActive(true);

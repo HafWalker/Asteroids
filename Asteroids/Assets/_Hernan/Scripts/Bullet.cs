@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
-{
-    [SerializeField]
-    protected float bulletLife = 5;
+public class Bullet : MonoBehaviour {
+    
+    public float bulletLife = 5;
 
-    private WaitForSeconds cacheWaitToDisable;
+    private WaitForSeconds m_cacheWaitToDisable;
 
-    private void OnEnable()
-    {
-        cacheWaitToDisable = new WaitForSeconds(bulletLife);
+    private void OnEnable() {
+        m_cacheWaitToDisable = new WaitForSeconds(bulletLife);
         StartCoroutine(CounterToDisable());
     }
 
     public IEnumerator CounterToDisable() {
-        yield return cacheWaitToDisable;
+        yield return m_cacheWaitToDisable;
         gameObject.SetActive(false);
     }
 }

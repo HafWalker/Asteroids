@@ -2,83 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
-{
-    [SerializeField]
-    protected AudioSource audioSource;
+public class AudioManager : MonoBehaviour {
 
-    [SerializeField]
-    protected AudioClip shootClip;
-
-    [SerializeField]
-    protected AudioClip explosionClip;
-
-    [SerializeField]
-    protected AudioClip shipExplosionClip;
-
-    [SerializeField]
-    protected AudioClip shipRespawnClip;
-
-    [SerializeField]
-    protected AudioClip shieldHitClip;
-
-    [SerializeField]
-    protected AudioClip jetClip;
+    public AudioSource audioSource;
+    public AudioClip shootClip;
+    public AudioClip explosionClip;
+    public AudioClip shipExplosionClip;
+    public AudioClip shipRespawnClip;
+    public AudioClip shieldHitClip;
+    public AudioClip jetClip;
     
-    private WaitForSeconds cacheWaitJetClip;
-    private float jetDelay;
-    private bool canPlay = true;
+    private WaitForSeconds m_cacheWaitJetClip;
+    private float m_jetDelay;
+    private bool m_canPlay = true;
 
-    private void Start()
-    {
-        jetDelay = jetClip.length;
-        cacheWaitJetClip = new WaitForSeconds(jetDelay);
+    private void Start() {
+        m_jetDelay = jetClip.length;
+        m_cacheWaitJetClip = new WaitForSeconds(m_jetDelay);
     }
 
-    public void PlayShootClip()
-    {
+    public void PlayShootClip() {
         audioSource.clip = shootClip;
         audioSource.Play();
     }
 
-    public void playExplosionClip()
-    {
+    public void playExplosionClip() {
         audioSource.clip = explosionClip;
         audioSource.Play();
     }
 
-    public void playShipExplosionClip()
-    {
+    public void playShipExplosionClip() {
         audioSource.clip = shipExplosionClip;
         audioSource.Play();
     }
 
-    public void playShipRespawnClip()
-    {
+    public void playShipRespawnClip() {
         audioSource.clip = shipRespawnClip;
         audioSource.Play();
     }
 
-    public void playShieldHitClip()
-    {
+    public void playShieldHitClip() {
         audioSource.clip = shieldHitClip;
         audioSource.Play();
     }
 
-    public void playJetClip()
-    {
-        if (canPlay)
-        {
+    public void playJetClip() {
+        if (m_canPlay) {
             audioSource.clip = jetClip;
             audioSource.Play();
             StartCoroutine(WaitToPlay());
-            canPlay = false;
+            m_canPlay = false;
         }
     }
 
-    public IEnumerator WaitToPlay()
-    {
-        yield return cacheWaitJetClip;
-        canPlay = true;
+    public IEnumerator WaitToPlay() {
+        yield return m_cacheWaitJetClip;
+        m_canPlay = true;
     }
 }
