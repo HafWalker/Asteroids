@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameUI : MonoBehaviour {
     
-    public Text scoreTxt;
+    public TextMeshPro scoreTxt;
     public List<GameObject> livesGameObjects;
-    public Text highScoreTxt;
+    public TextMeshPro highScoreTxt;
 
     public void RestLife(int index) {
         livesGameObjects[index].SetActive(false);
