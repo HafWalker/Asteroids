@@ -23,8 +23,8 @@ public class Asteroid : MonoBehaviour {
         m_spriteRender = GetComponent<SpriteRenderer>();
     }
 
-    public void Initialize(AsteroidType t, GameManager gameMgr) {
-        this.gameManager = gameMgr;
+    public void Initialize(AsteroidType t, GameManager gameManager) {
+        this.gameManager = gameManager;
         type = t;
         SetRandomSprite();
         SetRandomMovement();

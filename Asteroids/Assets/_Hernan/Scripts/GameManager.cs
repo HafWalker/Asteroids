@@ -13,6 +13,7 @@ public enum GAMESTATE {
 public class GameManager : MonoBehaviour {
 
     public GAMESTATE gameState;
+
     public AsteroidsManager asteroidManager;
     public PlayerStatus playerStatus;
     public GameUI gameUI;
